@@ -3,109 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameCloud — Скачать игры</title>
+    <title>GameCloud | Premium Games</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-color: #020617;
+            --accent-blue: #38bdf8;
+            --glass-bg: rgba(15, 23, 42, 0.6);
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0f172a;
-            color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: #f1f5f9;
+            overflow-x: hidden;
         }
+
+        /* Анимированный фон */
+        .bg-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(56, 189, 248, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(37, 99, 235, 0.05) 0%, transparent 40%);
+        }
+
+        .glass-nav {
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
         .game-card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+
         .game-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
-            border-color: #38bdf8;
+            transform: translateY(-12px) scale(1.02);
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
         }
+
+        .image-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to top, var(--bg-color), transparent);
+        }
+
         .download-btn {
-            background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
-            transition: all 0.2s ease;
+            background: #ffffff;
+            color: #020617;
+            box-shadow: 0 4px 14px 0 rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
         }
+
         .download-btn:hover {
-            filter: brightness(1.1);
-            transform: scale(1.02);
+            background: var(--accent-blue);
+            color: #fff;
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4);
         }
-        .glow-text {
-            text-shadow: 0 0 15px rgba(14, 165, 233, 0.5);
+
+        .search-bar {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .badge {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-blue);
+            border: 1px solid rgba(56, 189, 248, 0.2);
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="min-h-screen">
+
+    <div class="bg-glow"></div>
 
     <!-- Навигация -->
-    <nav class="p-6 border-b border-white/10 flex justify-between items-center sticky top-0 bg-[#0f172a]/80 backdrop-blur-md z-50">
-        <h1 class="text-2xl font-extrabold tracking-tighter text-sky-400">GAME<span class="text-white">CLOUD</span></h1>
-        <div class="space-x-6 hidden md:block">
-            <a href="#" class="hover:text-sky-400 transition">Главная</a>
-            <a href="#" class="hover:text-sky-400 transition">Новинки</a>
-            <a href="#" class="hover:text-sky-400 transition">Категории</a>
+    <nav class="glass-nav fixed top-0 w-full z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-sky-500 rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-sky-500/20">G</div>
+                <span class="text-xl font-extrabold tracking-tight">GAME<span class="text-sky-400">CLOUD</span></span>
+            </div>
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400">
+                <a href="#" class="hover:text-white transition-colors">Главная</a>
+                <a href="#" class="hover:text-white transition-colors">Каталог</a>
+                <a href="#" class="hover:text-white transition-colors">Популярное</a>
+                <button class="search-bar px-4 py-2 rounded-full flex items-center gap-2 group">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover:text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <span>Поиск...</span>
+                </button>
+            </div>
         </div>
     </nav>
 
     <!-- Основной контент -->
-    <main class="flex-grow container mx-auto px-4 py-12">
-        <header class="text-center mb-16">
-            <h2 class="text-5xl font-extrabold mb-4 glow-text">Библиотека Игр</h2>
-            <p class="text-slate-400 text-lg">Самые свежие релизы и классика в одном месте.</p>
-        </header>
+    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+        
+        <!-- Герой-секция -->
+        <div class="mb-20 text-center">
+            <h2 class="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight">
+                Играй в <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-600">будущее</span>
+            </h2>
+            <p class="text-slate-400 text-lg max-w-2xl mx-auto">
+                Лучшая подборка качественных игр с быстрой загрузкой. Без рекламы и лишних сложностей.
+            </p>
+        </div>
 
         <!-- Сетка игр -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             
-            <!-- Карточка игры Subnautica 2 -->
-            <div class="game-card w-full max-w-sm rounded-3xl overflow-hidden flex flex-col">
-                <div class="relative h-64 overflow-hidden">
-                    <!-- Заглушка изображения, если файла нет рядом с index.html -->
+            <!-- Карточка Subnautica 2 -->
+            <div class="game-card rounded-[2.5rem] overflow-hidden flex flex-col group">
+                <div class="relative h-72 image-container">
                     <img 
                         src="Subnautica 2.jpg" 
                         alt="Subnautica 2" 
-                        class="w-full h-full object-cover"
-                        onerror="this.src='https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=1000'"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        onerror="this.src='https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?q=80&w=1000'"
                     >
-                    <div class="absolute top-4 right-4 bg-sky-500 px-3 py-1 rounded-full text-xs font-bold uppercase">
-                        В разработке
+                    <div class="absolute top-6 left-6 flex gap-2">
+                        <span class="badge px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">NEW</span>
+                        <span class="bg-black/40 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Экшен</span>
                     </div>
                 </div>
                 
-                <div class="p-6 flex flex-col flex-grow">
-                    <h3 class="text-2xl font-bold mb-2">Subnautica 2</h3>
-                    <p class="text-slate-400 text-sm mb-6 flex-grow">
-                        Продолжение легендарного подводного выживания. Исследуйте новые инопланетные океаны, стройте базы и раскройте тайны глубин в совершенно новом мире.
+                <div class="p-8 flex flex-col flex-grow">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-3xl font-extrabold tracking-tight">Subnautica 2</h3>
+                            <p class="text-sky-400 font-medium text-sm">Unknown Worlds</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="block text-xs text-slate-500 uppercase">Релиз</span>
+                            <span class="font-bold">2026</span>
+                        </div>
+                    </div>
+                    
+                    <p class="text-slate-400 text-sm leading-relaxed mb-8">
+                        Новая глава в истории выживания. Погрузитесь в неизведанные глубины и откройте для себя экосистемы, которые еще не видел глаз человека.
                     </p>
                     
-                    <div class="flex items-center justify-between mb-4 text-xs text-slate-500">
-                        <span>Версия: 0.10.0</span>
-                        <span>Язык: RUS/ENG</span>
-                    </div>
+                    <div class="mt-auto space-y-4">
+                        <div class="flex gap-4 text-xs font-semibold text-slate-400 uppercase tracking-widest border-t border-white/5 pt-6">
+                            <div class="flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3.005 3.005 0 013.75-2.906z"/></svg>
+                                CO-OP
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M12 1.586l-4 4v12.828l4-4V1.586zM3.707 3.293A1 1 0 002 4v10a1 1 0 00.293.707L6 18.414V5.586L3.707 3.293zM17.707 5.293L14 1.586v12.828l2.293 2.293A1 1 0 0018 16V6a1 1 0 00-.293-.707z" clip-rule="evenodd"/></svg>
+                                OPEN WORLD
+                            </div>
+                        </div>
 
-                    <a href="magnet:?xt=urn:btih:00D0419B7A70F5ADBD8CB71C0EEBC30580CF5C7F&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet&dn=%5B%D0%92%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B5%5D%20%5BDL%5D%20Subnautica%202%20%5BP%5D%20%5BRUS%20%2B%20ENG%20%2B%209%20%2F%20ENG%5D%20(2026%2C%20Action)%20(0.10.0)%20%5BPortable%5D" 
-                       class="download-btn w-full py-4 rounded-xl font-bold text-center flex items-center justify-center gap-2 group">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
-                        </svg>
-                        СКАЧАТЬ (MAGNET)
-                    </a>
+                        <a href="magnet:?xt=urn:btih:00D0419B7A70F5ADBD8CB71C0EEBC30580CF5C7F&tr=http%3A%2F%2Fbt4.t-ru.org%2Fann%3Fmagnet&dn=%5B%D0%92%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B5%5D%20%5BDL%5D%20Subnautica%202%20%5BP%5D%20%5BRUS%20%2B%20ENG%20%2B%209%20%2F%20ENG%5D%20(2026%2C%20Action)%20(0.10.0)%20%5BPortable%5D" 
+                           class="download-btn w-full py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] text-center flex items-center justify-center gap-3 group">
+                            СКАЧАТЬ ТЕПЕРЬ
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:translate-x-1" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </div>
                 </div>
             </div>
 
-            <!-- Слот для будущих игр -->
-            <div class="game-card w-full max-w-sm rounded-3xl p-6 border-dashed border-white/20 flex flex-col items-center justify-center text-slate-500 opacity-50 min-h-[450px]">
-                <span class="text-4xl mb-2">+</span>
-                <p>Скоро добавятся новые игры...</p>
+            <!-- Скелетон следующей игры -->
+            <div class="game-card rounded-[2.5rem] p-10 flex flex-col items-center justify-center text-center group border-dashed opacity-40 hover:opacity-100 transition-opacity">
+                <div class="w-20 h-20 rounded-full border-2 border-dashed border-slate-700 flex items-center justify-center mb-6 group-hover:rotate-90 transition-transform duration-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                </div>
+                <h4 class="text-xl font-bold text-slate-500">Следующая игра</h4>
+                <p class="text-sm text-slate-600 mt-2">Мы уже готовим новый релиз для вас</p>
             </div>
 
         </div>
     </main>
 
-    <!-- Футер -->
-    <footer class="p-8 border-t border-white/10 text-center text-slate-500 text-sm">
-        <p>&copy; 2026 GameCloud Repository. Сайт создан для ознакомительных целей.</p>
+    <footer class="max-w-7xl mx-auto px-6 py-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-slate-500 text-sm">
+        <div class="flex items-center gap-2">
+            <div class="w-6 h-6 bg-slate-800 rounded flex items-center justify-center font-bold text-[10px]">GC</div>
+            <span>&copy; 2026 GameCloud. All rights reserved.</span>
+        </div>
+        <div class="flex gap-8">
+            <a href="#" class="hover:text-white transition-colors">Discord</a>
+            <a href="#" class="hover:text-white transition-colors">Telegram</a>
+            <a href="#" class="hover:text-white transition-colors">Поддержка</a>
+        </div>
     </footer>
 
 </body>
